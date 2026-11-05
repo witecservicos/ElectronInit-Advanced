@@ -54,8 +54,8 @@
   },
   "publish": {
     "provider": "github",
-    "owner": "WITec Serviços",
-    "repo": "https://github.com/witecservicos/ElectronInit-Advanced"
+    "owner": "witecservicos",
+    "repo": "ElectronInit-Advanced"
   },
   "build": {
     "appId": "com.witec.wiwitrack",

@@ -1,4 +1,5 @@
 import { app, BrowserWindow, Tray, Menu, Notification } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -48,6 +49,41 @@ function sendSystemNotification(title, body) {
     notification.show();
 }
 
+// --- CONFIGURATION DE LA MISE À JOUT AUTOMATIQUE (ELECTRON-UPDATER) ---
+function setupAutoUpdater() {
+    if (!isDev) {
+        autoUpdater.logger = console;
+        autoUpdater.logger.transports.file.level = 'info';
+
+        autoUpdater.on('update-available', () => {
+            sendSystemNotification(
+                "Mise à jour disponible",
+                "Une nouvelle version de Wiwitrack est en cours de téléchargement en arrière-plan..."
+            );
+        });
+
+        autoUpdater.on('update-downloaded', () => {
+            sendSystemNotification(
+                "Mise à jour prête",
+                "Téléchargement terminé. L'application va s'appliquer automatiquement."
+            );
+            // Redémarre l'application et installe la mise à jour
+            setTimeout(() => {
+                autoUpdater.quitAndInstall(false, true);
+            }, 3000);
+        });
+
+        autoUpdater.on('error', (err) => {
+            console.error('Erreur lors de la mise à jour automatique :', err);
+        });
+
+        // Vérifie les mises à jour 6 secondes après le lancement
+        setTimeout(() => {
+            autoUpdater.checkForUpdatesAndNotify();
+        }, 6000);
+    }
+}
+
 // 1. Création de la fenêtre de chargement (Splash Screen)
 function createSplashWindow() {
     splashWindow = new BrowserWindow({
@@ -84,7 +120,7 @@ function createWindow() {
             contextIsolation: true,
             devTools: isDev
         },
-        title: 'Wiwitrack Escola & Creche - Secrétaria'
+        title: 'Wiwitrack Escola & Creche - Secrétariat'
     });
 
     mainWindow.loadFile(paths.index);
@@ -95,7 +131,6 @@ function createWindow() {
             event.preventDefault(); // Annule la destruction réelle de la fenêtre
             mainWindow.hide();      // Cache la fenêtre en arrière-plan
 
-            // Notification système pour informer que l'app tourne toujours
             sendSystemNotification(
                 "Wiwitrack Escola",
                 "L'application continue de s'exécuter en arrière-plan."
@@ -105,7 +140,6 @@ function createWindow() {
         }
     });
 
-    // Une fois prêt, on ferme le splash screen et on affiche l'application principale
     mainWindow.once('ready-to-show', () => {
         if (splashWindow && !splashWindow.isDestroyed()) {
             splashWindow.close();
@@ -120,7 +154,7 @@ function createWindow() {
 
 // 3. Cycle de vie de l'application Electron
 app.whenReady().then(async () => {
-    // --- DÉMARRAGE AUTOMATIQUE WINDOWS ---
+    // --- DÉMARRAGE AUTOMATIQUE WINDOWS (En production) ---
     if (app.isPackaged) {
         app.setLoginItemSettings({
             openAtLogin: true
@@ -131,7 +165,7 @@ app.whenReady().then(async () => {
     tray = new Tray(paths.icon);
     const contextMenu = Menu.buildFromTemplate([
         {
-            label: '👁️‍🗨️ Abrir Wiwitrack',
+            label: 'Ouvrir Wiwitrack',
             click: () => {
                 if (mainWindow) {
                     mainWindow.show();
@@ -143,7 +177,7 @@ app.whenReady().then(async () => {
         },
         { type: 'separator' },
         {
-            label: '❌ Fechar o Wiwitrack',
+            label: 'Quitter définitivement',
             click: () => {
                 isQuitting = true; // Autorise la vraie fermeture
                 app.quit();
@@ -154,7 +188,6 @@ app.whenReady().then(async () => {
     tray.setToolTip('Wiwitrack Escola & Creche');
     tray.setContextMenu(contextMenu);
 
-    // Gère le clic simple sur l'icône du Tray pour afficher/masquer
     tray.on('click', () => {
         if (!mainWindow) {
             createWindow();
@@ -166,11 +199,11 @@ app.whenReady().then(async () => {
     createSplashWindow();
 
     try {
-        // Simulation d'un court délai d'initialisation (BDD locale / Express / mDNS)
         await new Promise(resolve => setTimeout(resolve, 1200));
-
-        // Lancement de la fenêtre principale
         createWindow();
+
+        // Lance le gestionnaire de màj automatique
+        setupAutoUpdater();
     } catch (error) {
         console.error('Erreur critique lors du démarrage de Wiwitrack :', error);
 
@@ -180,7 +213,6 @@ app.whenReady().then(async () => {
     }
 });
 
-// Empêche l'application de s'arrêter complètement quand toutes les fenêtres sont masquées
 app.on('window-all-closed', (event) => {
     event.preventDefault();
 });
