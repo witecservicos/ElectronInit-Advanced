@@ -9,7 +9,8 @@
     "server": "node ./server",
     "dev": "nodemon ./server",
     "seed": "node ./server/database/seed.js",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "release": "electron-builder --publish always"
   },
   "keywords": [
     "wiwitrack",
