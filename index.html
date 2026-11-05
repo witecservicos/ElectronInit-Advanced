@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WIWITRACK ESCOLA — Secrétaria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue-dark: #0A2540;
+      --blue: #1E5FBF;
+      --blue-mid: #2563EB;
+      --blue-light: #3B82F6;
+      --blue-soft: #EFF6FF;
+      --red: #DC2626;
+      --red-soft: #FEE2E2;
+      --green: #059669;
+      --green-soft: #D1FAE5;
+      --orange: #D97706;
+      --orange-soft: #FEF3C7;
+      --gray: #64748B;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+      --gray-300: #CBD5E1;
+      --sidebar: 252px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #F1F5F9;
+      color: var(--blue-dark);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      font-size: 13.5px;
+    }
+
+    /* ========== SIDEBAR ========== */
+    .sidebar {
+      width: var(--sidebar);
+      background: var(--blue-dark);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .brand {
+      padding: 16px 14px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand img {
+      height: 34px;
+      width: auto;
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text span {
+      font-size: 10.5px;
+      opacity: 0.55;
+      font-weight: 500;
+    }
+
+    .nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 8px 16px;
+    }
+
+    .nav::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .nav::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    .nav-group {
+      margin-bottom: 6px;
+    }
+
+    .nav-group-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #64748B;
+      padding: 10px 10px 4px;
+      font-weight: 600;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: 7px;
+      color: #94A3B8;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.12s;
+      margin-bottom: 1px;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+    }
+
+    .nav-link.active {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .nav-link .ico {
+      width: 18px;
+      text-align: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .nav-link .badge {
+      margin-left: auto;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 99px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .nav-sub {
+      margin-left: 12px;
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      padding-left: 6px;
+      display: none;
+    }
+
+    .nav-group.open .nav-sub {
+      display: block;
+    }
+
+    .nav-sub .nav-link {
+      padding: 6px 10px;
+      font-size: 12.5px;
+    }
+
+    .sidebar-foot {
+      padding: 12px 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 11px;
+      color: #64748B;
+      line-height: 1.4;
+    }
+
+    /* ========== MAIN ========== */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .topbar {
+      height: 52px;
+      background: #fff;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-left h1 {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .chip {
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 6px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--gray-100);
+      border-radius: 8px;
+      padding: 7px 12px;
+      width: 240px;
+    }
+
+    .search input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 12.5px;
+      width: 100%;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gray-100);
+      padding: 4px 10px 4px 4px;
+      border-radius: 99px;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 20px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    /* KPI */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .kpi {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .kpi-label {
+      font-size: 11.5px;
+      color: var(--gray);
+      margin-bottom: 2px;
+      font-weight: 500;
+    }
+
+    .kpi-val {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .up {
+      color: var(--green);
+    }
+
+    .down {
+      color: var(--red);
+    }
+
+    /* Panels */
+    .panel {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .panel-h {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .panel-h h2 {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .panel-b {
+      padding: 0;
+    }
+
+    /* Grid layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--gray-100);
+      font-weight: 600;
+      color: var(--gray);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    td {
+      padding: 9px 12px;
+      border-top: 1px solid var(--gray-200);
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: #F8FAFC;
+    }
+
+    .name-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .av {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--blue-soft);
+      color: var(--blue);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 10.5px;
+      flex-shrink: 0;
+    }
+
+    /* Status */
+    .st {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 600;
+    }
+
+    .st-ok {
+      background: var(--green-soft);
+      color: #065F46;
+    }
+
+    .st-warn {
+      background: var(--orange-soft);
+      color: #92400E;
+    }
+
+    .st-danger {
+      background: var(--red-soft);
+      color: #991B1B;
+    }
+
+    .st-info {
+      background: #DBEAFE;
+      color: #1E40AF;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 12px;
+      border-radius: 7px;
+      font-weight: 600;
+      font-size: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.12s;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #1E40AF;
+    }
+
+    .btn-outline {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      color: var(--blue-dark);
+    }
+
+    .btn-outline:hover {
+      background: var(--gray-100);
+    }
+
+    .btn-success {
+      background: var(--green-soft);
+      color: #065F46;
+    }
+
+    .btn-danger {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .btn-sm {
+      padding: 4px 8px;
+      font-size: 11px;
+    }
+
+    .btn-lg {
+      padding: 12px 18px;
+      font-size: 13.5px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .toolbar input,
+    .toolbar select {
+      padding: 7px 10px;
+      border: 1px solid var(--gray-200);
+      border-radius: 7px;
+      font-size: 12.5px;
+      outline: none;
+      background: #fff;
+    }
+
+    .toolbar input:focus,
+    .toolbar select:focus {
+      border-color: var(--blue);
+    }
+
+    /* Urgent queue */
+    .urgent-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .urgent-item:last-child {
+      border-bottom: none;
+    }
+
+    .urgent-item:hover {
+      background: #F8FAFC;
+    }
+
+    .urgent-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .urgent-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .urgent-body strong {
+      display: block;
+      font-size: 12.5px;
+      margin-bottom: 1px;
+    }
+
+    .urgent-body span {
+      font-size: 11.5px;
+      color: var(--gray);
+    }
+
+    .urgent-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* Quick actions */
+    .qa-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .qa-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 9px;
+      border: 1px solid var(--gray-200);
+      background: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all 0.15s;
+      text-align: left;
+      width: 100%;
+    }
+
+    .qa-btn:hover {
+      border-color: var(--blue-light);
+      background: var(--blue-soft);
+    }
+
+    .qa-btn.primary {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    .qa-btn.primary:hover {
+      background: #1E40AF;
+    }
+
+    .qa-ico {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    /* Forms / Modal */
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 37, 64, 0.45);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-bg.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 12px;
+      width: 540px;
+      max-width: 94vw;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
+    }
+
+    .modal-h {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .modal-h h3 {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .modal-x {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: var(--gray);
+    }
+
+    .form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .fg {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .fg.full {
+      grid-column: 1 / -1;
+    }
+
+    .fg label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray);
+    }
+
+    .fg input,
+    .fg select,
+    .fg textarea {
+      padding: 8px 10px;
+      border: 1px solid var(--gray-200);
+      border-radius: 7px;
+      font-size: 12.5px;
+      outline: none;
+    }
+
+    .fg input:focus,
+    .fg select:focus {
+      border-color: var(--blue);
+    }
+
+    .modal-f {
+      padding: 12px 16px;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 36px;
+      color: var(--gray);
+      font-size: 13px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--blue-dark);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 500;
+      z-index: 300;
+      display: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .toast.show {
+      display: block;
+      animation: slideIn 0.25s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(12px);
+        opacity: 0;
+      }
+
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <img src="./build/wiEscola-logo.png" alt="WIWITRACK" />
+      <div class="brand-text">
+        <strong>WIWITRACK</strong>
+        <span>Secrétariat · Electron</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <!-- 1. Dashboard -->
+      <div class="nav-group">
+        <div class="nav-link active" data-view="dashboard">
+          <span class="ico">📊</span> Tableau de Bord
+        </div>
+      </div>
+
+      <!-- 2. Scolarité -->
+      <div class="nav-group open" id="g-scolarite">
+        <div class="nav-group-title" onclick="toggleGroup('g-scolarite')">Scolarité & Élèves ▾</div>
+        <div class="nav-sub">
+          <div class="nav-link" data-view="eleves"><span class="ico">🎓</span> Liste des Élèves</div>
+          <div class="nav-link" data-view="inscriptions"><span class="ico">📝</span> Inscriptions</div>
+          <div class="nav-link" data-view="transferts"><span class="ico">🔄</span> Transferts de Sections</div>
+          <div class="nav-link" data-view="absences"><span class="ico">⏱️</span> Absences & Retards <span
+              class="badge">5</span></div>
+          <div class="nav-link" data-view="viescolaire"><span class="ico">📋</span> Vie Scolaire & Discipline <span
+              class="badge">3</span></div>
+        </div>
+      </div>
+
+      <!-- 3. Infrastructures -->
+      <div class="nav-group" id="g-infra">
+        <div class="nav-group-title" onclick="toggleGroup('g-infra')">Infrastructures & Pédagogie ▾</div>
+        <div class="nav-sub">
+          <div class="nav-link" data-view="salles"><span class="ico">🏫</span> Gestion des Salles</div>
+          <div class="nav-link" data-view="filieres"><span class="ico">📚</span> Filières & Matières</div>
+          <div class="nav-link" data-view="classes"><span class="ico">🗓️</span> Classes & Horaires</div>
+        </div>
+      </div>
+
+      <!-- 4. RH -->
+      <div class="nav-group" id="g-rh">
+        <div class="nav-group-title" onclick="toggleGroup('g-rh')">Ressources Humaines ▾</div>
+        <div class="nav-sub">
+          <div class="nav-link" data-view="profs"><span class="ico">👨‍🏫</span> Professeurs</div>
+          <div class="nav-link" data-view="personnel"><span class="ico">👷</span> Personnel Non-Enseignant</div>
+        </div>
+      </div>
+
+      <!-- 5. Finances -->
+      <div class="nav-group" id="g-finances">
+        <div class="nav-group-title" onclick="toggleGroup('g-finances')">Finances & Services ▾</div>
+        <div class="nav-sub">
+          <div class="nav-link" data-view="tresorerie"><span class="ico">💰</span> Trésorerie & Comptabilité</div>
+          <div class="nav-link" data-view="paie"><span class="ico">💵</span> Paie des Salaires</div>
+          <div class="nav-link" data-view="cantine"><span class="ico">🍽️</span> Cantine & Transport</div>
+          <div class="nav-link" data-view="dettes"><span class="ico">⚠️</span> Dettes <span class="badge">12</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Paramètres -->
+      <div class="nav-group" id="g-params">
+        <div class="nav-group-title" onclick="toggleGroup('g-params')">Paramètres & Système ▾</div>
+        <div class="nav-sub">
+          <div class="nav-link" data-view="config"><span class="ico">⚙️</span> Configuration de l'École</div>
+          <div class="nav-link" data-view="users"><span class="ico">🔑</span> Utilisateurs & Rôles</div>
+          <div class="nav-link" data-view="serveur"><span class="ico">🖥️</span> Serveur Local & Backup</div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar-foot">
+      Escola Exemplo · 2025/2026<br />
+      Serveur local · Synchro OK
+    </div>
+  </aside>
+
+  <!-- ========== MAIN ========== -->
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 id="page-title">Tableau de Bord</h1>
+        <span class="chip">Escola Exemplo · Luanda</span>
+      </div>
+      <div class="topbar-right">
+        <div class="search">
+          <span>🔍</span>
+          <input type="text" placeholder="Matricule, nom, NIF..." id="globalSearch" />
+        </div>
+        <span class="chip" id="conn-chip" title="État de la connexion au serveur local" style="cursor:pointer"
+          onclick="showView('serveur')">○ Hors ligne</span>
+        <div class="user">
+          <div class="avatar" id="user-avatar">?</div>
+          <span id="user-name">Invité</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- ==================== DASHBOARD ==================== -->
+      <div class="view active" id="view-dashboard">
+        <!-- KPIs -->
+        <div class="kpi-row">
+          <div class="kpi">
+            <div class="kpi-label">Effectif Total Actif</div>
+            <div class="kpi-val">342</div>
+            <div class="kpi-sub up">+8 ce mois</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Trésorerie du Mois</div>
+            <div class="kpi-val">4.82 M</div>
+            <div class="kpi-sub">Kz · Solde net</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Présence du Jour</div>
+            <div class="kpi-val">94.7%</div>
+            <div class="kpi-sub">Élèves · Profs 100%</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Alertes en attente</div>
+            <div class="kpi-val" style="color:var(--red)">7</div>
+            <div class="kpi-sub down">Requêtes à traiter</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Urgent queue -->
+          <div class="panel">
+            <div class="panel-h">
+              <h2>⚡ Requêtes urgentes</h2>
+              <span class="st st-danger">7 en attente</span>
+            </div>
+            <div class="panel-b" id="urgent-list">
+              <!-- filled by JS -->
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="panel">
+            <div class="panel-h">
+              <h2>Raccourcis rapides</h2>
+            </div>
+            <div class="qa-grid">
+              <button class="qa-btn primary" onclick="openModal('m-inscription')">
+                <div class="qa-ico" style="background:rgba(255,255,255,0.2)">➕</div>
+                Inscrire un nouvel élève
+              </button>
+              <button class="qa-btn" onclick="openModal('m-paiement')">
+                <div class="qa-ico" style="background:var(--green-soft)">💵</div>
+                Encaisser un paiement / Propinas
+              </button>
+              <button class="qa-btn" onclick="toast('Ouverture module annonce…')">
+                <div class="qa-ico" style="background:#DBEAFE">📢</div>
+                Envoyer une annonce aux parents
+              </button>
+              <button class="qa-btn" onclick="showView('absences')">
+                <div class="qa-ico" style="background:var(--orange-soft)">⏱️</div>
+                Gérer absences & retards
+              </button>
+              <button class="qa-btn" onclick="showView('viescolaire')">
+                <div class="qa-ico" style="background:#FEE2E2">📋</div>
+                Voir la file disciplinaire
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent payments -->
+        <div class="panel" style="margin-top:14px">
+          <div class="panel-h">
+            <h2>Derniers paiements (aujourd'hui)</h2>
+            <button class="btn btn-sm btn-outline" onclick="showView('tresorerie')">Voir trésorerie →</button>
+          </div>
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Élève</th>
+                  <th>Montant</th>
+                  <th>Mode</th>
+                  <th>Heure</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="dash-pay"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ÉLÈVES ==================== -->
+      <div class="view" id="view-eleves">
+        <div class="toolbar">
+          <input type="text" id="f-eleve" placeholder="Nom, matricule, NIF..." oninput="renderEleves()"
+            style="width:220px" />
+          <select id="f-classe" onchange="renderEleves()">
+            <option value="">Toutes classes</option>
+            <option>Crèche A</option>
+            <option>Pré-escolar B</option>
+            <option>1ª Classe</option>
+            <option>5ª Classe</option>
+            <option>7ª Classe</option>
+            <option>10ª Classe</option>
+          </select>
+          <button class="btn btn-primary" onclick="openModal('m-inscription')">➕ Nouvel élève</button>
+        </div>
+        <div class="panel">
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Matricule</th>
+                  <th>Élève</th>
+                  <th>Classe</th>
+                  <th>Tuteur</th>
+                  <th>WhatsApp</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tb-eleves"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== INSCRIPTIONS ==================== -->
+      <div class="view" id="view-inscriptions">
+        <div class="toolbar">
+          <button class="btn btn-primary" onclick="openModal('m-inscription')">➕ Nouvelle inscription</button>
+          <button class="btn btn-outline">📋 Liste d'attente (4)</button>
+        </div>
+        <div class="panel">
+          <div class="panel-h">
+            <h2>Inscriptions / Réinscriptions 2025-2026</h2>
+          </div>
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Élève</th>
+                  <th>Type</th>
+                  <th>Date</th>
+                  <th>Frais</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tb-insc"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== TRANSFERTS ==================== -->
+      <div class="view" id="view-transferts">
+        <div class="toolbar">
+          <button class="btn btn-primary" onclick="toast('Formulaire de transfert ouvert')">🔄 Nouveau
+            transfert</button>
+        </div>
+        <div class="panel">
+          <div class="panel-h">
+            <h2>Transferts de sections / classes</h2>
+          </div>
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Élève</th>
+                  <th>De</th>
+                  <th>Vers</th>
+                  <th>Date</th>
+                  <th>Motif</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Dário Manuel</td>
+                  <td>5ª A (Matin)</td>
+                  <td>5ª B (Soir)</td>
+                  <td>15/10/2025</td>
+                  <td>Demande parent</td>
+                  <td><span class="st st-ok">Validé</span></td>
+                </tr>
+                <tr>
+                  <td>Maria João</td>
+                  <td>Crèche A</td>
+                  <td>Pré-escolar B</td>
+                  <td>01/09/2025</td>
+                  <td>Âge</td>
+                  <td><span class="st st-ok">Validé</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ABSENCES & RETARDS ==================== -->
+      <div class="view" id="view-absences">
+        <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
+          <div class="kpi">
+            <div class="kpi-label">Absents aujourd'hui</div>
+            <div class="kpi-val" style="color:var(--red)">18</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Retards aujourd'hui</div>
+            <div class="kpi-val" style="color:var(--orange)">7</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Justifiés</div>
+            <div class="kpi-val" style="color:var(--green)">11</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">En attente de justification</div>
+            <div class="kpi-val">5</div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <select id="abs-classe">
+            <option value="">Toutes les classes</option>
+            <option>Crèche A</option>
+            <option>5ª Classe</option>
+            <option>7ª Classe</option>
+            <option>10ª Classe</option>
+          </select>
+          <input type="date" value="2026-11-04" id="abs-date" />
+          <button class="btn btn-primary" onclick="openModal('m-absence')">➕ Saisir absence / retard</button>
+          <button class="btn btn-outline" onclick="toast('Notifications WhatsApp envoyées aux parents des absents')">📢
+            Notifier les parents (WhatsApp)</button>
+        </div>
+        <div class="panel">
+          <div class="panel-h">
+            <h2>Absences & Retards — Aujourd'hui</h2>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-sm btn-outline" onclick="filterAbs('all')">Tous</button>
+              <button class="btn btn-sm btn-outline" onclick="filterAbs('absent')">Absents</button>
+              <button class="btn btn-sm btn-outline" onclick="filterAbs('retard')">Retards</button>
+              <button class="btn btn-sm btn-outline" onclick="filterAbs('pending')">En attente</button>
+            </div>
+          </div>
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Élève</th>
+                  <th>Classe</th>
+                  <th>Type</th>
+                  <th>Heure</th>
+                  <th>Justification</th>
+                  <th>Notifié</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tb-absences"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== VIE SCOLAIRE ==================== -->
+      <div class="view" id="view-viescolaire">
+        <div class="toolbar">
+          <button class="btn btn-primary" onclick="openModal('m-discipline')">➕ Nouvel incident</button>
+          <button class="btn btn-outline" onclick="showView('absences')">⏱️ Gérer absences & retards</button>
+        </div>
+        <div class="panel">
+          <div class="panel-h">
+            <h2>Vie scolaire & Discipline — Signalements</h2>
+          </div>
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Élève</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Source</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tb-disc"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SALLES ==================== -->
+      <div class="view" id="view-salles">
+        <div class="toolbar"><button class="btn btn-primary">➕ Nouvelle salle</button></div>
+        <div class="panel">
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Salle</th>
+                  <th>Capacité</th>
+                  <th>Type</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Salle 1</td>
+                  <td>35</td>
+                  <td>Classe</td>
+                  <td><span class="st st-ok">Disponible</span></td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+                <tr>
+                  <td>Salle 2</td>
+                  <td>40</td>
+                  <td>Classe</td>
+                  <td><span class="st st-ok">Disponible</span></td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+                <tr>
+                  <td>Labo Info</td>
+                  <td>24</td>
+                  <td>Laboratoire</td>
+                  <td><span class="st st-warn">Occupée</span></td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+                <tr>
+                  <td>Salle de sport</td>
+                  <td>60</td>
+                  <td>Sport</td>
+                  <td><span class="st st-ok">Disponible</span></td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== FILIÈRES ==================== -->
+      <div class="view" id="view-filieres">
+        <div class="toolbar"><button class="btn btn-primary">➕ Nouvelle filière / matière</button></div>
+        <div class="panel">
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Filière / Matière</th>
+                  <th>Cycle</th>
+                  <th>Volume horaire</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mathématiques</td>
+                  <td>Iº Ciclo</td>
+                  <td>6h/sem</td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+                <tr>
+                  <td>Langue Portugaise</td>
+                  <td>Primaire</td>
+                  <td>5h/sem</td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+                <tr>
+                  <td>Sciences</td>
+                  <td>Iº Ciclo</td>
+                  <td>4h/sem</td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+                <tr>
+                  <td>Comptabilité</td>
+                  <td>IIº Ciclo</td>
+                  <td>6h/sem</td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== CLASSES ==================== -->
+      <div class="view" id="view-classes">
+        <div class="toolbar"><button class="btn btn-primary">➕ Nouvelle classe / horaire</button></div>
+        <div class="panel">
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Classe</th>
+                  <th>Salle</th>
+                  <th>Horaire</th>
+                  <th>Effectif</th>
+                  <th>Prof. Principal</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5ª Classe A</td>
+                  <td>Salle 1</td>
+                  <td>Matin (07h–12h)</td>
+                  <td>32</td>
+                  <td>Prof. Silva</td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+                <tr>
+                  <td>5ª Classe B</td>
+                  <td>Salle 2</td>
+                  <td>Soir (13h–18h)</td>
+                  <td>28</td>
+                  <td>Prof. Costa</td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+                <tr>
+                  <td>Crèche A</td>
+                  <td>Salle Crèche</td>
+                  <td>Journée</td>
+                  <td>18</td>
+                  <td>Educadora Ana</td>
+                  <td><button class="btn btn-sm btn-outline">✏️</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== PROFESSEURS ==================== -->
+      <div class="view" id="view-profs">
+        <div class="toolbar">
+          <input type="text" placeholder="Nom du professeur..." style="width:200px" />
+          <button class="btn btn-primary">➕ Nouveau professeur</button>
+        </div>
+        <div class="panel">
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Contact</th>
+                  <th>Matières</th>
+                  <th>Classes</th>
+                  <th>Rôle</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="name-cell"><span class="av">JS</span> João Silva</div>
+                  </td>
+                  <td>+244 923 111 000</td>
+                  <td>Mathématiques</td>
+                  <td>5ª A, 6ª A</td>
+                  <td><span class="st st-info">Prof. Principal</span></td>
+                  <td><button class="btn btn-sm btn-outline">Fiche</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="name-cell"><span class="av">MC</span> Maria Costa</div>
+                  </td>
+                  <td>+244 912 222 111</td>
+                  <td>Portugais</td>
+                  <td>5ª B, 7ª A</td>
+                  <td>—</td>
+                  <td><button class="btn btn-sm btn-outline">Fiche</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="name-cell"><span class="av">AP</span> Ana Pereira</div>
+                  </td>
+                  <td>+244 935 333 222</td>
+                  <td>Éducatrice</td>
+                  <td>Crèche A</td>
+                  <td><span class="st st-info">Responsable</span></td>
+                  <td><button class="btn btn-sm btn-outline">Fiche</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== PERSONNEL ==================== -->
+      <div class="view" id="view-personnel">
+        <div class="toolbar"><button class="btn btn-primary">➕ Ajouter personnel</button></div>
+        <div class="panel">
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Fonction</th>
+                  <th>Contact</th>
+                  <th>Tâches du jour</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Carlos Mendes</td>
+                  <td>Surveillant</td>
+                  <td>+244 923 444 333</td>
+                  <td>Cour de récréation</td>
+                  <td><span class="st st-ok">Présent</span></td>
+                </tr>
+                <tr>
+                  <td>Lúcia Santos</td>
+                  <td>Cantine</td>
+                  <td>+244 912 555 444</td>
+                  <td>Service déjeuner</td>
+                  <td><span class="st st-ok">Présent</span></td>
+                </tr>
+                <tr>
+                  <td>Paulo Neto</td>
+                  <td>Chauffeur</td>
+                  <td>+244 935 666 555</td>
+                  <td>Circuit matin</td>
+                  <td><span class="st st-ok">En route</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== TRÉSORERIE ==================== -->
+      <div class="view" id="view-tresorerie">
+        <div class="kpi-row">
+          <div class="kpi">
+            <div class="kpi-label">Entrées du mois</div>
+            <div class="kpi-val" style="color:var(--green)">6.12 M</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Sorties du mois</div>
+            <div class="kpi-val" style="color:var(--red)">1.30 M</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Solde net</div>
+            <div class="kpi-val">4.82 M</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Caisse du jour</div>
+            <div class="kpi-val">612 500</div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn btn-primary" onclick="openModal('m-paiement')">💵 Encaisser paiement</button>
+          <button class="btn btn-outline">📄 Fermer caisse</button>
+          <button class="btn btn-outline">📥 Export Excel</button>
+        </div>
+        <div class="panel">
+          <div class="panel-h">
+            <h2>Mouvements récents</h2>
+          </div>
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Type</th>
+                  <th>Montant</th>
+                  <th>Mode</th>
+                </tr>
+              </thead>
+              <tbody id="tb-tresorerie"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== PAIE ==================== -->
+      <div class="view" id="view-paie">
+        <div class="toolbar">
+          <select>
+            <option>Novembre 2025</option>
+            <option>Octobre 2025</option>
+          </select>
+          <button class="btn btn-primary">Générer paie du mois</button>
+        </div>
+        <div class="panel">
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Employé</th>
+                  <th>Fonction</th>
+                  <th>Salaire base</th>
+                  <th>Primes</th>
+                  <th>Net à payer</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>João Silva</td>
+                  <td>Professeur</td>
+                  <td>180 000</td>
+                  <td>15 000</td>
+                  <td>195 000</td>
+                  <td><span class="st st-warn">En attente</span></td>
+                </tr>
+                <tr>
+                  <td>Maria Costa</td>
+                  <td>Professeur</td>
+                  <td>175 000</td>
+                  <td>10 000</td>
+                  <td>185 000</td>
+                  <td><span class="st st-warn">En attente</span></td>
+                </tr>
+                <tr>
+                  <td>Ana Pereira</td>
+                  <td>Éducatrice</td>
+                  <td>150 000</td>
+                  <td>5 000</td>
+                  <td>155 000</td>
+                  <td><span class="st st-ok">Payé</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== CANTINE ==================== -->
+      <div class="view" id="view-cantine">
+        <div class="toolbar">
+          <button class="btn btn-primary">➕ Abonnement cantine</button>
+          <button class="btn btn-outline">🚌 Abonnement transport</button>
+        </div>
+        <div class="panel">
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Élève</th>
+                  <th>Service</th>
+                  <th>Mensualité</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Dário Manuel</td>
+                  <td>Cantine</td>
+                  <td>15 000 Kz</td>
+                  <td><span class="st st-ok">Actif</span></td>
+                  <td><button class="btn btn-sm btn-outline">Gérer</button></td>
+                </tr>
+                <tr>
+                  <td>Maria João</td>
+                  <td>Transport</td>
+                  <td>20 000 Kz</td>
+                  <td><span class="st st-ok">Actif</span></td>
+                  <td><button class="btn btn-sm btn-outline">Gérer</button></td>
+                </tr>
+                <tr>
+                  <td>Pedro Costa</td>
+                  <td>Cantine + Transport</td>
+                  <td>35 000 Kz</td>
+                  <td><span class="st st-danger">Impayé</span></td>
+                  <td><button class="btn btn-sm btn-outline">Gérer</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== DETTES ==================== -->
+      <div class="view" id="view-dettes">
+        <div class="toolbar">
+          <button class="btn btn-primary" onclick="toast('12 relances WhatsApp envoyées (template Dette J-3)')">📢
+            Relancer toutes (WhatsApp)</button>
+          <button class="btn btn-outline">Export Excel</button>
+        </div>
+        <div class="panel">
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Élève</th>
+                  <th>Tuteur</th>
+                  <th>Tel</th>
+                  <th>Montant dû</th>
+                  <th>Jours</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tb-dettes"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== CONFIG ==================== -->
+      <div class="view" id="view-config">
+        <div class="panel">
+          <div class="panel-h">
+            <h2>Configuration de l'école</h2>
+          </div>
+          <div class="form">
+            <div class="fg"><label>Nom de l'établissement</label><input value="Escola Exemplo" /></div>
+            <div class="fg"><label>Année académique</label><input value="2025/2026" /></div>
+            <div class="fg"><label>Adresse</label><input value="Benfica Mundial, Luanda" /></div>
+            <div class="fg"><label>Téléphone</label><input value="+244 222 000 000" /></div>
+            <div class="fg full"><label>Logo</label><input type="file" /></div>
+          </div>
+          <div class="modal-f"><button class="btn btn-primary"
+              onclick="toast('Configuration enregistrée')">Enregistrer</button></div>
+        </div>
+      </div>
+
+      <!-- ==================== USERS ==================== -->
+      <div class="view" id="view-users">
+        <div class="toolbar"><button class="btn btn-primary">➕ Nouvel utilisateur</button></div>
+        <div class="panel">
+          <div class="panel-b">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Rôle</th>
+                  <th>Email</th>
+                  <th>Dernière connexion</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Maria Santos</td>
+                  <td>Secrétaire</td>
+                  <td>maria@escola.ao</td>
+                  <td>Aujourd'hui 07:42</td>
+                  <td><button class="btn btn-sm btn-outline">Éditer</button></td>
+                </tr>
+                <tr>
+                  <td>Carlos Director</td>
+                  <td>Directeur</td>
+                  <td>director@escola.ao</td>
+                  <td>Hier 18:10</td>
+                  <td><button class="btn btn-sm btn-outline">Éditer</button></td>
+                </tr>
+                <tr>
+                  <td>João Silva</td>
+                  <td>Enseignant</td>
+                  <td>jsilva@escola.ao</td>
+                  <td>Aujourd'hui 07:55</td>
+                  <td><button class="btn btn-sm btn-outline">Éditer</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SERVEUR ==================== -->
+      <div class="view" id="view-serveur">
+        <div class="kpi-row">
+          <div class="kpi">
+            <div class="kpi-label">État serveur local</div>
+            <div class="kpi-val" id="srv-state" style="font-size:18px">—</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Synchro cloud</div>
+            <div class="kpi-val" id="srv-remote" style="font-size:16px">—</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">En attente de synchro</div>
+            <div class="kpi-val" id="srv-pending" style="font-size:16px">—</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Conflits</div>
+            <div class="kpi-val" id="srv-conflicts" style="font-size:16px">—</div>
+          </div>
+        </div>
+        <div class="panel" style="margin-bottom:14px">
+          <div class="panel-h">
+            <h2>Connexion au serveur local</h2>
+          </div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+              <div class="fg" style="flex:1;min-width:260px">
+                <label>Adresse du serveur (nom de domaine mDNS, pas d'IP)</label>
+                <input id="srv-url" type="text" placeholder="http://wiwitrack-escola.local:4000" />
+              </div>
+              <button class="btn btn-primary" onclick="App.saveServerUrl()">Enregistrer</button>
+              <button class="btn btn-outline" onclick="App.pingServer()">Tester</button>
+            </div>
+            <div style="font-size:12px;color:var(--gray)">Le serveur local se publie sur le réseau sous le nom
+              <strong>wiwitrack-escola.local</strong>. Les postes clients n'ont donc pas besoin de connaître son adresse
+              IP.
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-h">
+            <h2>Actions système</h2>
+          </div>
+          <div style="padding:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-outline" onclick="App.refreshServer()">🔄 Rafraîchir l'état</button>
+            <button class="btn btn-primary" onclick="App.forceSync()">☁️ Forcer la synchro cloud</button>
+            <button class="btn btn-outline" onclick="App.logout()">🚪 Se déconnecter</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== MODALS ========== -->
+  <div class="modal-bg" id="m-inscription">
+    <div class="modal">
+      <div class="modal-h">
+        <h3>Nouvelle inscription</h3><button class="modal-x" onclick="closeModal('m-inscription')">×</button>
+      </div>
+      <div class="form">
+        <div class="fg"><label>Nom de l'élève *</label><input id="ins-nom" placeholder="Nom complet" /></div>
+        <div class="fg"><label>Date de naissance *</label><input id="ins-naissance" type="date" /></div>
+        <div class="fg"><label>Classe *</label>
+          <select id="ins-classe">
+            <option>Crèche A</option>
+            <option>Pré-escolar B</option>
+            <option>1ª Classe</option>
+            <option>5ª Classe</option>
+          </select>
+        </div>
+        <div class="fg"><label>Sexe</label><select id="ins-sexe">
+            <option>Masculino</option>
+            <option>Feminino</option>
+          </select></div>
+        <div class="fg"><label>Père — Nom</label><input id="ins-pere" /></div>
+        <div class="fg"><label>Père — WhatsApp</label><input id="ins-pere-tel" type="tel"
+            placeholder="+244 9xx xxx xxx" /></div>
+        <div class="fg"><label>Mère — Nom</label><input id="ins-mere" /></div>
+        <div class="fg"><label>Mère — WhatsApp</label><input id="ins-mere-tel" type="tel" /></div>
+        <div class="fg full"><label>Tuteur principal (qui paie)</label>
+          <select id="ins-tuteur">
+            <option>Père</option>
+            <option>Mère</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="fg"><label>Frais inscription (Kz)</label><input id="ins-frais" type="number" value="25000" /></div>
+        <div class="fg"><label>Propina mensuelle (Kz)</label><input id="ins-propina" type="number" value="45000" />
+        </div>
+      </div>
+      <div class="modal-f">
+        <button class="btn btn-outline" onclick="closeModal('m-inscription')">Annuler</button>
+        <button class="btn btn-primary" onclick="App.saveInscription()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="m-paiement">
+    <div class="modal">
+      <div class="modal-h">
+        <h3>Encaisser un paiement</h3><button class="modal-x" onclick="closeModal('m-paiement')">×</button>
+      </div>
+      <div class="form">
+        <div class="fg full"><label>Élève *</label><select id="pay-eleve"></select></div>
+        <div class="fg"><label>Montant (Kz) *</label><input id="pay-montant" type="number" placeholder="45000" /></div>
+        <div class="fg"><label>Mode *</label>
+          <select id="pay-mode">
+            <option>Espèces</option>
+            <option>Multicaixa Express</option>
+            <option>Unitel Money</option>
+            <option>Transfert</option>
+          </select>
+        </div>
+        <div class="fg"><label>Mois</label><select id="pay-mois">
+            <option>Novembre 2025</option>
+            <option>Octobre 2025</option>
+          </select></div>
+        <div class="fg full"><label>Observation</label><textarea id="pay-obs" rows="2"></textarea></div>
+      </div>
+      <div class="modal-f">
+        <button class="btn btn-outline" onclick="closeModal('m-paiement')">Annuler</button>
+        <button class="btn btn-primary" onclick="App.savePaiement()">Enregistrer & Imprimer reçu</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="m-discipline">
+    <div class="modal">
+      <div class="modal-h">
+        <h3>Nouvel incident disciplinaire</h3><button class="modal-x" onclick="closeModal('m-discipline')">×</button>
+      </div>
+      <div class="form">
+        <div class="fg full"><label>Élève *</label><select id="disc-eleve"></select></div>
+        <div class="fg"><label>Type</label>
+          <select id="disc-type">
+            <option>Retard</option>
+            <option>Absence injustifiée</option>
+            <option>Comportement</option>
+            <option>Violence</option>
+          </select>
+        </div>
+        <div class="fg"><label>Sanction</label>
+          <select id="disc-sanction">
+            <option>Avertissement oral</option>
+            <option>Avertissement écrit</option>
+            <option>Convocation parents</option>
+          </select>
+        </div>
+        <div class="fg full"><label>Description</label><textarea id="disc-desc" rows="3"></textarea></div>
+      </div>
+      <div class="modal-f">
+        <button class="btn btn-outline" onclick="closeModal('m-discipline')">Annuler</button>
+        <button class="btn btn-primary" onclick="App.saveDiscipline()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="m-absence">
+    <div class="modal">
+      <div class="modal-h">
+        <h3>Saisir absence / retard</h3><button class="modal-x" onclick="closeModal('m-absence')">×</button>
+      </div>
+      <div class="form">
+        <div class="fg full"><label>Élève *</label><select id="abs-eleve"></select></div>
+        <div class="fg"><label>Type *</label>
+          <select id="abs-type">
+            <option value="absent">Absence</option>
+            <option value="retard">Retard</option>
+          </select>
+        </div>
+        <div class="fg"><label>Date *</label><input id="abs-date-m" type="date" value="2026-11-04" /></div>
+        <div class="fg"><label>Heure d'arrivée (si retard)</label><input id="abs-heure" type="time" value="08:25" />
+        </div>
+        <div class="fg"><label>Justification</label>
+          <select id="abs-justif">
+            <option value="">— Non justifié —</option>
+            <option>Maladie (certificat)</option>
+            <option>Rendez-vous médical</option>
+            <option>Motif familial</option>
+            <option>Transport</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="fg"><label>Notifier le parent</label>
+          <select id="abs-notif">
+            <option value="1">Oui — WhatsApp immédiat</option>
+            <option value="0">Non</option>
+          </select>
+        </div>
+        <div class="fg full"><label>Observation</label><textarea id="abs-obs" rows="2"
+            placeholder="Détails éventuels…"></textarea></div>
+      </div>
+      <div class="modal-f">
+        <button class="btn btn-outline" onclick="closeModal('m-absence')">Annuler</button>
+        <button class="btn btn-primary" onclick="App.saveAbsence()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== OVERLAY DE CONNEXION (API serveur local) ========== -->
+  <div id="login-overlay"
+    style="position:fixed;inset:0;background:linear-gradient(135deg,#0A2540,#1E5FBF);display:none;align-items:center;justify-content:center;z-index:9999">
+    <div
+      style="background:#fff;border-radius:16px;padding:28px 26px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <img src="./build/wiEscola-logo.png" alt="" style="height:34px" onerror="this.style.display='none'" />
+        <div><strong style="font-size:16px;color:#0A2540">WIWITRACK ESCOLA</strong>
+          <div style="font-size:11px;color:#64748B">Secrétariat · Serveur local</div>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:#64748B;margin:4px 0 16px">Connectez-vous au serveur local de l'école.</p>
+      <div class="fg" style="margin-bottom:10px"><label>Email ou téléphone</label><input id="login-id" type="text"
+          placeholder="admin@wiwitrack.com" value="admin@wiwitrack.com" autocomplete="username" /></div>
+      <div class="fg" style="margin-bottom:10px"><label>Mot de passe</label><input id="login-pass" type="password"
+          placeholder="••••••••" value="admin" autocomplete="current-password" /></div>
+      <div class="fg" style="margin-bottom:14px"><label>Serveur</label><input id="login-url" type="text"
+          placeholder="http://wiwitrack-escola.local:4000" /></div>
+      <div id="login-error"
+        style="display:none;background:#FEE2E2;color:#DC2626;font-size:12px;padding:8px 10px;border-radius:8px;margin-bottom:10px">
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" id="login-btn" onclick="App.login()">Se
+        connecter</button>
+      <button class="btn btn-outline" style="width:100%;justify-content:center;margin-top:8px"
+        onclick="App.runDemo()">Continuer en mode démo (hors ligne)</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* ========== DATA ========== */
+    const DB = {
+      eleves: [
+        { id: 1, mat: "E-2025-001", nom: "Dário Manuel", classe: "5ª Classe", tuteur: "Ana Manuel", tel: "+244 923 111 222", statut: "Actif", dette: 0 },
+        { id: 2, mat: "E-2025-014", nom: "Maria João", classe: "Crèche A", tuteur: "João Pedro", tel: "+244 912 333 444", statut: "Actif", dette: 45000 },
+        { id: 3, mat: "E-2025-022", nom: "Pedro Costa", classe: "7ª Classe", tuteur: "Sofia Costa", tel: "+244 935 555 666", statut: "Actif", dette: 90000 },
+        { id: 4, mat: "E-2025-031", nom: "Inês Ferreira", classe: "1ª Classe", tuteur: "Carlos Ferreira", tel: "+244 941 777 888", statut: "Actif", dette: 0 },
+        { id: 5, mat: "E-2025-045", nom: "Lucas Silva", classe: "Pré-escolar B", tuteur: "Marta Silva", tel: "+244 923 999 000", statut: "Actif", dette: 0 },
+        { id: 6, mat: "E-2025-052", nom: "Beatriz Nunes", classe: "10ª Classe", tuteur: "Paulo Nunes", tel: "+244 912 222 333", statut: "Suspendu", dette: 135000 },
+        { id: 7, mat: "E-2025-061", nom: "André Lopes", classe: "5ª Classe", tuteur: "Rita Lopes", tel: "+244 935 444 555", statut: "Actif", dette: 0 },
+        { id: 8, mat: "E-2025-073", nom: "Clara Mendes", classe: "Crèche A", tuteur: "Hugo Mendes", tel: "+244 941 666 777", statut: "Actif", dette: 45000 },
+      ],
+      paiements: [
+        { eleve: "Dário Manuel", montant: 45000, mode: "Multicaixa", heure: "09:12" },
+        { eleve: "Inês Ferreira", montant: 45000, mode: "Espèces", heure: "09:45" },
+        { eleve: "André Lopes", montant: 45000, mode: "Unitel Money", heure: "10:20" },
+        { eleve: "Lucas Silva", montant: 35000, mode: "Espèces", heure: "11:05" },
+        { eleve: "Clara Mendes", montant: 20000, mode: "Multicaixa", heure: "11:40" },
+      ],
+      inscriptions: [
+        { eleve: "Dário Manuel", type: "Réinscription", date: "02/09/2025", frais: 25000, statut: "Validée" },
+        { eleve: "Nova Aluna X", type: "Inscription", date: "28/10/2025", frais: 25000, statut: "En attente" },
+        { eleve: "Pedro Costa", type: "Réinscription", date: "01/09/2025", frais: 25000, statut: "Bloquée (dette)" },
+      ],
+      dettes: [
+        { eleve: "Pedro Costa", tuteur: "Sofia Costa", tel: "+244 935 555 666", montant: 90000, jours: 32 },
+        { eleve: "Beatriz Nunes", tuteur: "Paulo Nunes", tel: "+244 912 222 333", montant: 135000, jours: 45 },
+        { eleve: "Maria João", tuteur: "João Pedro", tel: "+244 912 333 444", montant: 45000, jours: 12 },
+        { eleve: "Clara Mendes", tuteur: "Hugo Mendes", tel: "+244 941 666 777", montant: 45000, jours: 8 },
+      ],
+      discipline: [
+        { date: "30/10", eleve: "Pedro Costa", type: "Retard", desc: "Arrivée 25 min en retard", source: "Prof. Silva" },
+        { date: "28/10", eleve: "André Lopes", type: "Comportement", desc: "Dispute en classe", source: "Prof. Costa" },
+        { date: "27/10", eleve: "Beatriz Nunes", type: "Absence", desc: "3 jours sans justification", source: "Système" },
+      ],
+      absences: [
+        { eleve: "Pedro Costa", classe: "7ª Classe", type: "absent", heure: "—", justif: "", notifie: true, status: "pending" },
+        { eleve: "Maria João", classe: "Crèche A", type: "absent", heure: "—", justif: "Maladie (certificat)", notifie: true, status: "justified" },
+        { eleve: "André Lopes", classe: "5ª Classe", type: "retard", heure: "08:22", justif: "Transport", notifie: true, status: "justified" },
+        { eleve: "Beatriz Nunes", classe: "10ª Classe", type: "absent", heure: "—", justif: "", notifie: false, status: "pending" },
+        { eleve: "Clara Mendes", classe: "Crèche A", type: "retard", heure: "08:35", justif: "", notifie: true, status: "pending" },
+        { eleve: "Lucas Silva", classe: "Pré-escolar B", type: "absent", heure: "—", justif: "Rendez-vous médical", notifie: true, status: "justified" },
+      ],
+      urgents: [
+        { icon: "🚪", bg: "#DBEAFE", title: "Demande de sortie — Comptabilité A", sub: "Prof. Mendes · il y a 12 min", type: "sortie" },
+        { icon: "⏱️", bg: "#FEF3C7", title: "5 absences / retards non justifiés", sub: "En attente de justification parent", type: "absence" },
+        { icon: "⚠️", bg: "#FEE2E2", title: "3 signalements de comportement non validés", sub: "File disciplinaire", type: "discipline" },
+        { icon: "💰", bg: "#D1FAE5", title: "Paiement partiel en attente de validation", sub: "Clara Mendes · 20 000 Kz", type: "paiement" },
+      ]
+    };
+
+    const TITLES = {
+      dashboard: "Tableau de Bord", eleves: "Liste des Élèves", inscriptions: "Inscriptions & Réinscriptions",
+      transferts: "Transferts de Sections", absences: "Absences & Retards", viescolaire: "Vie Scolaire & Discipline",
+      salles: "Gestion des Salles", filieres: "Filières & Matières", classes: "Classes & Horaires",
+      profs: "Professeurs", personnel: "Personnel Non-Enseignant",
+      tresorerie: "Trésorerie & Comptabilité", paie: "Paie des Salaires", cantine: "Cantine & Transport",
+      dettes: "Dettes", config: "Configuration de l'École", users: "Utilisateurs & Rôles",
+      serveur: "Serveur Local & Backup"
+    };
+
+    /* ====================================================================
+       WIWITRACK ESCOLA — client API (serveur local Express 5 + Sequelize)
+       mDNS: http://wiwitrack-escola.local:4000 · Auth JWT · fallback démo
+       ==================================================================== */
+
+    /* --- sécurité : échappement HTML (les données sont injectées en innerHTML) --- */
+    function esc(v) {
+      if (v === null || v === undefined) return '';
+      return String(v)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function kz(n) { return (Number(n) || 0).toLocaleString('fr-FR'); }
+
+    /* --- état applicatif --- */
+    const LS = {
+      url: 'wiwitrack.serverUrl',
+      token: 'wiwitrack.token',
+      user: 'wiwitrack.user'
+    };
+    const DEFAULT_URL = 'http://wiwitrack-escola.local:4000';
+    const State = {
+      baseURL: localStorage.getItem(LS.url) || DEFAULT_URL,
+      token: localStorage.getItem(LS.token) || null,
+      user: (() => { try { return JSON.parse(localStorage.getItem(LS.user) || 'null'); } catch (e) { return null; } })(),
+      online: false,
+      demo: false
+    };
+
+    /* --- client HTTP minimal --- */
+    const WiwiAPI = {
+      base() { return (State.baseURL || DEFAULT_URL).replace(/\/+$/, ''); },
+      async request(path, opt = {}) {
+        const headers = Object.assign({ 'Content-Type': 'application/json' }, opt.headers || {});
+        if (State.token) headers['Authorization'] = 'Bearer ' + State.token;
+        const ctrl = new AbortController();
+        const to = setTimeout(() => ctrl.abort(), opt.timeout || 8000);
+        let res;
+        try {
+          res = await fetch(this.base() + path, {
+            method: opt.method || 'GET',
+            headers,
+            body: opt.body ? JSON.stringify(opt.body) : undefined,
+            signal: ctrl.signal
+          });
+        } finally { clearTimeout(to); }
+        if (res.status === 401) { App.sessionExpired(); throw new Error('unauthorized'); }
+        let data = null; try { data = await res.json(); } catch (e) { }
+        if (!res.ok) { throw new Error((data && (data.message || data.error)) || ('HTTP ' + res.status)); }
+        return data;
+      },
+      get(p) { return this.request(p); },
+      post(p, b) { return this.request(p, { method: 'POST', body: b }); },
+      put(p, b) { return this.request(p, { method: 'PUT', body: b }); },
+      async health() { return this.request('/health', { timeout: 4000 }); }
+    };
+
+    /* ====================================================================
+       ADAPTATEURS — convertissent les réponses du backend vers la forme UI.
+       Les champs agrégés absents des endpoints simples (classe, tuteur,
+       dette cumulée) sont mappés au mieux + repli démo — cf. TODO.
+       ==================================================================== */
+    const Adapt = {
+      age(birth) { if (!birth) return ''; const d = new Date(birth); if (isNaN(d)) return ''; const t = new Date(); let a = t.getFullYear() - d.getFullYear(); const m = t.getMonth() - d.getMonth(); if (m < 0 || (m === 0 && t.getDate() < d.getDate())) a--; return a; },
+      student(s) {
+        const nom = s.full_name || [s.first_name, s.last_name].filter(Boolean).join(' ') || s.name || '—';
+        return {
+          id: s.id,
+          mat: s.registration_number || s.matricula || ('E-' + String(s.id).padStart(4, '0')),
+          nom,
+          classe: (s.current_class && (s.current_class.name || s.current_class)) || s.class_name || '—',
+          tuteur: (s.guardian && (s.guardian.full_name || s.guardian.name)) || s.guardian_name || '—',
+          tel: (s.guardian && s.guardian.phone) || s.guardian_phone || s.phone || '—',
+          statut: (s.status === 'suspended' || s.status === 'Suspendu') ? 'Suspendu' : 'Actif',
+          dette: Number(s.outstanding_balance || s.balance || 0)
+        };
+      },
+      invoice(iv) {
+        const st = iv.student || {};
+        return {
+          id: iv.id,
+          eleve: st.full_name || iv.student_name || ('#' + (iv.student_id || '?')),
+          tuteur: (st.guardian && (st.guardian.full_name || st.guardian.name)) || iv.guardian_name || '—',
+          tel: (st.guardian && st.guardian.phone) || iv.guardian_phone || '—',
+          montant: Number(iv.amount_due || iv.amount || iv.total || 0) - Number(iv.amount_paid || 0),
+          jours: iv.due_date ? Math.max(0, Math.round((Date.now() - new Date(iv.due_date)) / 864e5)) : 0
+        };
+      },
+      transaction(t) {
+        const inflow = (t.direction === 'in' || t.type === 'payment' || t.type === 'income' || Number(t.amount) > 0);
+        return {
+          date: (t.created_at || t.date || '').slice(0, 10).split('-').reverse().join('/') || '—',
+          label: t.description || t.label || (t.student_name ? ('Propina ' + t.student_name) : 'Transaction'),
+          inflow,
+          montant: Math.abs(Number(t.amount || 0)),
+          mode: t.method || t.payment_method || '—'
+        };
+      },
+      attendance(a) {
+        const st = a.student || {};
+        const type = (a.type === 'late' || a.status === 'late' || a.type === 'retard') ? 'retard' : 'absent';
+        return {
+          eleve: st.full_name || a.student_name || ('#' + (a.student_id || '?')),
+          classe: (st.current_class && (st.current_class.name)) || a.class_name || '—',
+          type,
+          heure: a.arrival_time || a.time || '—',
+          justif: a.justification || a.reason || '',
+          notifie: !!(a.parent_notified || a.notified),
+          status: (a.justification || a.justified) ? 'justified' : 'pending'
+        };
+      },
+      observation(o) {
+        const st = o.student || {};
+        return {
+          date: (o.created_at || o.date || '').slice(5, 10).split('-').reverse().join('/') || '—',
+          eleve: st.full_name || o.student_name || ('#' + (o.student_id || '?')),
+          type: o.category || o.type || 'Observation',
+          desc: o.description || o.note || '',
+          source: o.author || o.reported_by || 'Système'
+        };
+      },
+      enrollment(e) {
+        const st = e.student || {};
+        const map = { pending: 'En attente', validated: 'Validée', approved: 'Validée', blocked: 'Bloquée (dette)' };
+        return {
+          eleve: st.full_name || e.student_name || ('#' + (e.student_id || '?')),
+          type: (e.type === 're' || e.is_reenrollment) ? 'Réinscription' : 'Inscription',
+          date: (e.created_at || e.date || '').slice(0, 10).split('-').reverse().join('/') || '—',
+          frais: Number(e.fee || e.amount || 0),
+          statut: map[e.status] || e.status || 'En attente'
+        };
+      }
+    };
+
+    /* trésorerie : tableau brut depuis l'API (sinon repli démo) */
+    let TX = null;
+
+    /* ====================================================================
+       APP — cycle de vie, connexion, chargement des données, actions
+       ==================================================================== */
+    const App = {
+      /* ---- indicateur de connexion (topbar) ---- */
+      setConn(state) {
+        const chip = document.getElementById('conn-chip');
+        if (!chip) return;
+        if (state === 'online') { chip.style.background = '#D1FAE5'; chip.style.color = '#047857'; chip.textContent = '● En ligne · serveur local'; }
+        else if (state === 'demo') { chip.style.background = '#FEF3C7'; chip.style.color = '#92400E'; chip.textContent = '● Mode démo (hors ligne)'; }
+        else { chip.style.background = '#FEE2E2'; chip.style.color = '#B91C1C'; chip.textContent = '○ Hors ligne'; }
+      },
+      setUser(u) {
+        const n = (u && (u.full_name || u.name || u.email)) || (State.demo ? 'Démo' : 'Invité');
+        document.getElementById('user-name').textContent = n;
+        document.getElementById('user-avatar').textContent = ini(n) || '?';
+      },
+
+      /* ---- démarrage ---- */
+      async start() {
+        document.getElementById('srv-url').value = State.baseURL;
+        document.getElementById('login-url').value = State.baseURL;
+        if (State.token) {
+          // session existante : on tente de reprendre
+          try { await WiwiAPI.health(); await this.enterOnline(); return; }
+          catch (e) { /* serveur injoignable → on affiche le login */ }
+        }
+        this.showLogin();
+      },
+      showLogin() { document.getElementById('login-overlay').style.display = 'flex'; },
+      hideLogin() { document.getElementById('login-overlay').style.display = 'none'; },
+      loginError(msg) { const e = document.getElementById('login-error'); if (msg) { e.textContent = msg; e.style.display = 'block'; } else { e.style.display = 'none'; } },
+
+      async login() {
+        const id = document.getElementById('login-id').value.trim();
+        const pass = document.getElementById('login-pass').value;
+        const url = document.getElementById('login-url').value.trim() || DEFAULT_URL;
+        const btn = document.getElementById('login-btn');
+        if (!id || !pass) { this.loginError('Renseignez vos identifiants.'); return; }
+        State.baseURL = url; localStorage.setItem(LS.url, url);
+        btn.disabled = true; btn.textContent = 'Connexion…'; this.loginError('');
+        try {
+          const r = await WiwiAPI.post('/api/auth/login', { email: id, username: id, phone: id, password: pass });
+          const token = r.token || r.accessToken || (r.data && r.data.token);
+          if (!token) throw new Error('Réponse inattendue du serveur.');
+          State.token = token; localStorage.setItem(LS.token, token);
+          State.user = r.user || (r.data && r.data.user) || { email: id };
+          localStorage.setItem(LS.user, JSON.stringify(State.user));
+          await this.enterOnline();
+        } catch (e) {
+          this.loginError(e.message === 'Failed to fetch' || /abort/i.test(e.message)
+            ? 'Serveur local injoignable sur ' + url + '. Vérifiez qu\'il est allumé sur le réseau.'
+            : ('Échec de connexion : ' + e.message));
+        } finally { btn.disabled = false; btn.textContent = 'Se connecter'; }
+      },
+
+      async enterOnline() {
+        State.online = true; State.demo = false;
+        this.hideLogin(); this.setConn('online'); this.setUser(State.user);
+        await this.loadAll();
+        this.refreshServer();
+      },
+
+      runDemo() {
+        State.demo = true; State.online = false;
+        this.hideLogin(); this.setConn('demo'); this.setUser(null);
+        // DB mock déjà en place : on rend tout tel quel
+        this.renderAll();
+        toast('Mode démo : données fictives, aucune écriture serveur.');
+      },
+
+      sessionExpired() {
+        State.token = null; localStorage.removeItem(LS.token);
+        State.online = false; this.setConn('offline');
+        this.showLogin(); this.loginError('Session expirée, reconnectez-vous.');
+      },
+      logout() {
+        State.token = null; State.user = null;
+        localStorage.removeItem(LS.token); localStorage.removeItem(LS.user);
+        State.online = false; State.demo = false;
+        this.setConn('offline'); this.showLogin(); this.loginError('');
+      },
+
+      /* ---- chargement des données depuis le serveur local ---- */
+      async loadAll() {
+        await Promise.allSettled([
+          this.loadStudents(), this.loadInvoices(), this.loadTransactions(),
+          this.loadAttendances(), this.loadEnrollments(), this.loadObservations()
+        ]);
+        this.renderAll();
+      },
+      _arr(r) { return Array.isArray(r) ? r : (r && (r.data || r.items || r.rows || r.results)) || []; },
+
+      async loadStudents() {
+        try { const r = await WiwiAPI.get('/api/students?limit=500'); DB.eleves = this._arr(r).map(Adapt.student); }
+        catch (e) { console.warn('students', e.message); }
+      },
+      async loadInvoices() {
+        try { const r = await WiwiAPI.get('/api/billing/invoices?status=unpaid'); DB.dettes = this._arr(r).map(Adapt.invoice).filter(d => d.montant > 0); }
+        catch (e) { console.warn('invoices', e.message); }
+      },
+      async loadTransactions() {
+        try { const r = await WiwiAPI.get('/api/transactions?limit=100'); TX = this._arr(r).map(Adapt.transaction); }
+        catch (e) { console.warn('transactions', e.message); }
+      },
+      async loadAttendances() {
+        try { const r = await WiwiAPI.get('/api/attendances?date=today'); DB.absences = this._arr(r).map(Adapt.attendance); }
+        catch (e) { console.warn('attendances', e.message); }
+      },
+      async loadEnrollments() {
+        try { const r = await WiwiAPI.get('/api/enrollments?limit=50'); DB.inscriptions = this._arr(r).map(Adapt.enrollment); }
+        catch (e) { console.warn('enrollments', e.message); }
+      },
+      async loadObservations() {
+        try { const r = await WiwiAPI.get('/api/student-observations?limit=50'); DB.discipline = this._arr(r).map(Adapt.observation); }
+        catch (e) { console.warn('observations', e.message); }
+      },
+
+      /* ---- garde : bloque les écritures en mode démo ---- */
+      _guard() { if (!State.online) { toast('Mode démo : connectez-vous au serveur local pour enregistrer.'); return false; } return true; },
+
+      /* ---- actions POST ---- */
+      async saveInscription() {
+        if (!this._guard()) return;
+        const g = id => document.getElementById(id);
+        const nom = g('ins-nom').value.trim(), naiss = g('ins-naissance').value;
+        if (!nom || !naiss) { toast('Nom et date de naissance obligatoires.'); return; }
+        const parts = nom.split(' ');
+        const payload = {
+          full_name: nom, first_name: parts[0], last_name: parts.slice(1).join(' '),
+          birth_date: naiss, gender: g('ins-sexe').value, class_name: g('ins-classe').value,
+          guardian: {
+            father_name: g('ins-pere').value, father_phone: g('ins-pere-tel').value,
+            mother_name: g('ins-mere').value, mother_phone: g('ins-mere-tel').value,
+            primary: g('ins-tuteur').value
+          },
+          enrollment_fee: Number(g('ins-frais').value || 0), monthly_fee: Number(g('ins-propina').value || 0)
+        };
+        try {
+          const st = await WiwiAPI.post('/api/students', payload);
+          const sid = (st && (st.id || (st.data && st.data.id)));
+          try { await WiwiAPI.post('/api/enrollments', { student_id: sid, type: 'new', fee: payload.enrollment_fee }); } catch (e) { }
+          closeModal('m-inscription'); toast('Inscription enregistrée ✓');
+          await this.loadStudents(); await this.loadEnrollments(); this.renderAll();
+        } catch (e) { toast('Erreur : ' + e.message); }
+      },
+      async savePaiement() {
+        if (!this._guard()) return;
+        const sid = document.getElementById('pay-eleve').value;
+        const montant = Number(document.getElementById('pay-montant').value || 0);
+        if (!sid || montant <= 0) { toast('Élève et montant obligatoires.'); return; }
+        const payload = {
+          student_id: sid, amount: montant, method: document.getElementById('pay-mode').value,
+          period: document.getElementById('pay-mois').value, note: document.getElementById('pay-obs').value
+        };
+        try {
+          await WiwiAPI.post('/api/billing/payments', payload);
+          closeModal('m-paiement'); toast('Paiement enregistré + reçu généré ✓');
+          await this.loadInvoices(); await this.loadTransactions(); await this.loadStudents(); this.renderAll();
+        } catch (e) { toast('Erreur : ' + e.message); }
+      },
+      async saveDiscipline() {
+        if (!this._guard()) return;
+        const sid = document.getElementById('disc-eleve').value;
+        if (!sid) { toast('Sélectionnez un élève.'); return; }
+        const payload = {
+          student_id: sid, category: document.getElementById('disc-type').value,
+          sanction: document.getElementById('disc-sanction').value, description: document.getElementById('disc-desc').value
+        };
+        try {
+          await WiwiAPI.post('/api/student-observations', payload);
+          closeModal('m-discipline'); toast('Incident enregistré ✓');
+          await this.loadObservations(); this.renderAll();
+        } catch (e) { toast('Erreur : ' + e.message); }
+      },
+      async saveAbsence() {
+        if (!this._guard()) return;
+        const sid = document.getElementById('abs-eleve').value;
+        if (!sid) { toast('Sélectionnez un élève.'); return; }
+        const type = document.getElementById('abs-type').value;
+        const payload = {
+          student_id: sid, type: (type === 'retard' ? 'late' : 'absent'),
+          date: document.getElementById('abs-date-m').value,
+          arrival_time: document.getElementById('abs-heure').value,
+          justification: document.getElementById('abs-justif').value,
+          parent_notified: document.getElementById('abs-notif').value === '1',
+          note: document.getElementById('abs-obs').value
+        };
+        try {
+          await WiwiAPI.post('/api/attendances', payload);
+          closeModal('m-absence'); toast('Absence / retard enregistré ✓');
+          await this.loadAttendances(); this.renderAll();
+        } catch (e) { toast('Erreur : ' + e.message); }
+      },
+
+      /* ---- vue Serveur local ---- */
+      saveServerUrl() {
+        const url = document.getElementById('srv-url').value.trim() || DEFAULT_URL;
+        State.baseURL = url; localStorage.setItem(LS.url, url);
+        document.getElementById('login-url').value = url;
+        toast('Adresse du serveur enregistrée : ' + url);
+      },
+      async pingServer() {
+        const url = document.getElementById('srv-url').value.trim() || DEFAULT_URL;
+        State.baseURL = url; localStorage.setItem(LS.url, url);
+        const el = document.getElementById('srv-state');
+        el.textContent = 'Test en cours…'; el.style.color = 'var(--gray)';
+        try { await WiwiAPI.health(); el.textContent = '● En ligne'; el.style.color = 'var(--green)'; toast('Serveur local joignable ✓'); }
+        catch (e) { el.textContent = '○ Injoignable'; el.style.color = 'var(--red)'; toast('Serveur injoignable : ' + e.message); }
+      },
+      async refreshServer() {
+        const S = document.getElementById('srv-state'), R = document.getElementById('srv-remote'),
+          P = document.getElementById('srv-pending'), C = document.getElementById('srv-conflicts');
+        try { await WiwiAPI.health(); S.textContent = '● En ligne'; S.style.color = 'var(--green)'; }
+        catch (e) { S.textContent = '○ Injoignable'; S.style.color = 'var(--red)'; R.textContent = '—'; P.textContent = '—'; C.textContent = '—'; return; }
+        try {
+          const s = await WiwiAPI.get('/api/sync/status');
+          const d = s && (s.data || s) || {};
+          R.textContent = d.last_sync ? ('Dernière : ' + String(d.last_sync).replace('T', ' ').slice(0, 16)) : (d.enabled ? 'Activée' : 'Non configurée');
+          P.textContent = (d.pending != null ? d.pending : 0) + ' op.';
+          C.textContent = (d.conflicts != null ? d.conflicts : 0);
+        } catch (e) { R.textContent = '—'; P.textContent = '—'; C.textContent = '—'; }
+      },
+      async forceSync() {
+        if (!this._guard()) return;
+        toast('Synchro cloud lancée…');
+        try { await WiwiAPI.post('/api/sync/run', {}); toast('Synchro cloud terminée ✓'); this.refreshServer(); }
+        catch (e) { toast('Synchro indisponible : ' + e.message + ' (template cloud non relié — .env)'); }
+      },
+
+      renderAll() {
+        renderDash(); renderEleves(); renderInsc(); renderDettes();
+        renderDisc(); renderAbsences(); renderTreso(); fillSelects();
+      }
+    };
+
+    function ini(n) { return (n || '').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase(); }
+
+    function showView(name) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+      const v = document.getElementById('view-' + name);
+      if (v) v.classList.add('active');
+      document.querySelector(`.nav-link[data-view="${name}"]`)?.classList.add('active');
+      document.getElementById('page-title').textContent = TITLES[name] || name;
+    }
+
+    document.querySelectorAll('.nav-link[data-view]').forEach(el => {
+      el.addEventListener('click', () => showView(el.dataset.view));
+    });
+
+    function toggleGroup(id) {
+      document.getElementById(id).classList.toggle('open');
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    /* Renderers */
+    function jsSafe(s) { return String(s == null ? '' : s).replace(/[\\'"<>&]/g, ' '); }
+
+    function renderEleves() {
+      const q = (document.getElementById('f-eleve')?.value || '').toLowerCase();
+      const cl = document.getElementById('f-classe')?.value || '';
+      const rows = DB.eleves
+        .filter(e => (!q || (e.nom || '').toLowerCase().includes(q) || (e.mat || '').toLowerCase().includes(q)) && (!cl || e.classe === cl));
+      const tb = document.getElementById('tb-eleves');
+      tb.innerHTML = rows.length ? rows.map(e => `<tr>
+      <td style="font-family:monospace;font-size:11px">${esc(e.mat)}</td>
+      <td><div class="name-cell"><span class="av">${esc(ini(e.nom))}</span>${esc(e.nom)}</div></td>
+      <td>${esc(e.classe)}</td><td>${esc(e.tuteur)}</td><td>${esc(e.tel)}</td>
+      <td><span class="st ${e.statut === 'Actif' ? 'st-ok' : 'st-danger'}">${esc(e.statut)}</span></td>
+      <td>
+        <button class="btn btn-sm btn-outline" onclick="toast('Fiche ${jsSafe(e.nom)}')">Fiche</button>
+        <button class="btn btn-sm btn-outline" onclick="toast('WhatsApp → ${jsSafe(e.tuteur)}')">💬</button>
+      </td>
+    </tr>`).join('') : `<tr><td colspan="7" style="text-align:center;color:var(--gray);padding:18px">Aucun élève.</td></tr>`;
+    }
+
+    function renderDash() {
+      // Encaissements du jour : dérivés des transactions entrantes si en ligne, sinon mock
+      const pays = TX ? TX.filter(t => t.inflow).slice(0, 8).map(t => ({ eleve: t.label.replace(/^Propina\s+/, ''), montant: t.montant, mode: t.mode, heure: (t.date || '').slice(0, 5) || '—' })) : DB.paiements;
+      const el = document.getElementById('dash-pay');
+      el.innerHTML = pays.length ? pays.map(p => `
+    <tr><td>${esc(p.eleve)}</td><td><strong>${kz(p.montant)} Kz</strong></td><td>${esc(p.mode)}</td><td>${esc(p.heure)}</td>
+    <td><button class="btn btn-sm btn-outline">Reçu</button></td></tr>`).join('') : `<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:14px">Aucun encaissement.</td></tr>`;
+
+      document.getElementById('urgent-list').innerHTML = DB.urgents.map(u => `
+    <div class="urgent-item">
+      <div class="urgent-icon" style="background:${esc(u.bg)}">${u.icon}</div>
+      <div class="urgent-body"><strong>${esc(u.title)}</strong><span>${esc(u.sub)}</span></div>
+      <div class="urgent-actions">
+        <button class="btn btn-sm btn-success" onclick="toast('Validé ✓')">Valider</button>
+        <button class="btn btn-sm btn-danger" onclick="toast('Rejeté')">Rejeter</button>
+      </div>
+    </div>`).join('');
+    }
+
+    function renderInsc() {
+      const el = document.getElementById('tb-insc');
+      el.innerHTML = DB.inscriptions.length ? DB.inscriptions.map(i => `
+    <tr><td>${esc(i.eleve)}</td><td>${esc(i.type)}</td><td>${esc(i.date)}</td><td>${kz(i.frais)} Kz</td>
+    <td><span class="st ${i.statut.includes('Bloquée') ? 'st-danger' : i.statut === 'Validée' ? 'st-ok' : 'st-warn'}">${esc(i.statut)}</span></td>
+    <td><button class="btn btn-sm btn-outline">Voir</button></td></tr>`).join('') : `<tr><td colspan="6" style="text-align:center;color:var(--gray);padding:14px">Aucune inscription.</td></tr>`;
+    }
+
+    function renderDettes() {
+      const el = document.getElementById('tb-dettes');
+      el.innerHTML = DB.dettes.length ? DB.dettes.map(d => `
+    <tr><td>${esc(d.eleve)}</td><td>${esc(d.tuteur)}</td><td>${esc(d.tel)}</td>
+    <td><strong style="color:var(--red)">${kz(d.montant)} Kz</strong></td>
+    <td>${esc(d.jours)} j</td>
+    <td>
+      <button class="btn btn-sm btn-primary" onclick="toast('WhatsApp relance → ${jsSafe(d.tuteur)}')">💬 Relancer</button>
+      <button class="btn btn-sm btn-outline" onclick="openModal('m-paiement')">Payer</button>
+    </td></tr>`).join('') : `<tr><td colspan="6" style="text-align:center;color:var(--gray);padding:14px">Aucune dette en cours.</td></tr>`;
+    }
+
+    function renderDisc() {
+      const el = document.getElementById('tb-disc');
+      el.innerHTML = DB.discipline.length ? DB.discipline.map(d => `
+    <tr><td>${esc(d.date)}</td><td>${esc(d.eleve)}</td><td><span class="st st-warn">${esc(d.type)}</span></td>
+    <td>${esc(d.desc)}</td><td>${esc(d.source)}</td>
+    <td>
+      <button class="btn btn-sm btn-success" onclick="toast('Validé')">Valider</button>
+      <button class="btn btn-sm btn-outline">Détail</button>
+    </td></tr>`).join('') : `<tr><td colspan="6" style="text-align:center;color:var(--gray);padding:14px">Aucun incident.</td></tr>`;
+    }
+
+    function renderAbsences(filter) {
+      const list = filter && filter !== 'all'
+        ? DB.absences.filter(a => filter === 'pending' ? a.status === 'pending' : a.type === filter)
+        : DB.absences;
+      document.getElementById('tb-absences').innerHTML = list.map(a => {
+        const typeLabel = a.type === 'absent' ? 'Absence' : 'Retard';
+        const typeClass = a.type === 'absent' ? 'st-danger' : 'st-warn';
+        const justifHtml = a.justif
+          ? `<span class="st st-ok">${esc(a.justif)}</span>`
+          : `<span class="st st-danger">Non justifié</span>`;
+        const notifHtml = a.notifie
+          ? `<span class="st st-ok">Oui</span>`
+          : `<span class="st st-warn">Non</span>`;
+        return `<tr>
+      <td><div class="name-cell"><span class="av">${esc(ini(a.eleve))}</span>${esc(a.eleve)}</div></td>
+      <td>${esc(a.classe)}</td>
+      <td><span class="st ${typeClass}">${typeLabel}</span></td>
+      <td>${esc(a.heure)}</td>
+      <td>${justifHtml}</td>
+      <td>${notifHtml}</td>
+      <td>
+        ${a.status === 'pending' ? `<button class="btn btn-sm btn-success" onclick="toast('Justification validée pour ${jsSafe(a.eleve)}')">Justifier</button>` : ''}
+        <button class="btn btn-sm btn-outline" onclick="toast('WhatsApp → parent de ${jsSafe(a.eleve)}')">💬</button>
+        <button class="btn btn-sm btn-outline" onclick="toast('Détail ${jsSafe(a.eleve)}')">Voir</button>
+      </td>
+    </tr>`;
+      }).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--gray);padding:14px">Aucune absence / retard.</td></tr>`;
+    }
+
+    function filterAbs(type) { renderAbsences(type); }
+
+    function renderTreso() {
+      const el = document.getElementById('tb-tresorerie');
+      if (TX && TX.length) {
+        el.innerHTML = TX.map(t => `
+    <tr><td>${esc(t.date)}</td><td>${esc(t.label)}</td>
+    <td><span class="st ${t.inflow ? 'st-ok' : 'st-danger'}">${t.inflow ? 'Entrée' : 'Sortie'}</span></td>
+    <td style="color:${t.inflow ? 'var(--green)' : 'var(--red)'};font-weight:600">${t.inflow ? '+' : '−'}${kz(t.montant)}</td><td>${esc(t.mode)}</td></tr>`).join('');
+      } else {
+        el.innerHTML = DB.paiements.map(p => `
+    <tr><td>02/11/2026</td><td>Propina ${esc(p.eleve)}</td><td><span class="st st-ok">Entrée</span></td>
+    <td style="color:var(--green);font-weight:600">+${kz(p.montant)}</td><td>${esc(p.mode)}</td></tr>`).join('');
+      }
+    }
+
+    function fillSelects() {
+      const opts = DB.eleves.map(e => `<option value="${esc(e.id)}">${esc(e.nom)} (${esc(e.classe)})</option>`).join('');
+      ['pay-eleve', 'disc-eleve', 'abs-eleve'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.innerHTML = opts;
+      });
+    }
+
+    /* ====================== DÉMARRAGE ====================== */
+    document.addEventListener('DOMContentLoaded', () => { App.start(); });
+  </script>
+</body>
+
+</html>
