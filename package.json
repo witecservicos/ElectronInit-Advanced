@@ -59,7 +59,8 @@
     "owner": "witecservicos",
     "repo": "ElectronInit-Advanced",
     "draft": false,
-    "prerelease": false
+    "prerelease": false,
+    "releaseNotes": "generate"
   },
   "build": {
     "appId": "com.witec.wiwitrack",
