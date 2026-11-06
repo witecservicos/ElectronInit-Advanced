@@ -10,7 +10,7 @@
     "dev": "nodemon ./server",
     "seed": "node ./server/database/seed.js",
     "build": "electron-builder",
-    "release": "electron-builder --publish always"
+    "release": "dotenv -e .env -- electron-builder --publish always"
   },
   "keywords": [
     "wiwitrack",
@@ -75,8 +75,6 @@
       "icon": "build/wiEscola-logo.ico",
       "target": [
         "nsis",
-        "zip",
-        "portable",
         "msi"
       ]
     },
