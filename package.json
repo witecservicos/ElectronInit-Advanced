@@ -1,6 +1,6 @@
 {
   "name": "wiwitrack-escola",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "WIWITRACK ESCOLA & CRECHE - ERP scolaire angolais (Local-First, Electron + Express 5 + Sequelize/MySQL)",
   "main": "./electron/main.js",
   "type": "module",
@@ -57,7 +57,9 @@
   "publish": {
     "provider": "github",
     "owner": "witecservicos",
-    "repo": "ElectronInit-Advanced"
+    "repo": "ElectronInit-Advanced",
+    "draft": false,
+    "prerelease": false
   },
   "build": {
     "appId": "com.witec.wiwitrack",
